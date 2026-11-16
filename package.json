@@ -1,0 +1,20 @@
+{
+  "name": "ai-bubble-video",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion render src/index.ts AIBubble out/ai_bubble_bill_arrived.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.286",
+    "@remotion/google-fonts": "4.0.286",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.286"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "@types/react": "18.3.11"
+  }
+}

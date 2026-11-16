@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+.venv/
+
+# Rendered output (regenerate via npm run build)
+out/
+
+# Generated voiceover audio (regenerate via scripts/gen_voiceover_kokoro.py)
+public/audio/
+
+# TTS model binaries (too large for git, download via README instructions)
+models/
+
+# Scratch / source material not needed in repo
+assets/doc_export.pdf
+assets/doc_images/
+assets/thumb_ref/
+assets/test_img.png
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Remotion
+.remotion/
