@@ -4,7 +4,12 @@ import { Background } from "./Background";
 import { dataFont, scriptFont } from "../fonts";
 import { theme } from "../theme";
 
-export const TitleCard: React.FC = () => {
+export const TitleCard: React.FC<{
+  lineNormal: string;
+  lineAccent: string;
+  subtitle: string;
+  icon?: string;
+}> = ({ lineNormal, lineAccent, subtitle, icon = "💾" }) => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 15], [0, 1], { extrapolateRight: "clamp" });
   const iconSpin = interpolate(frame, [0, 90], [0, 360]);
@@ -24,7 +29,7 @@ export const TitleCard: React.FC = () => {
           opacity,
         }}
       >
-        <div style={{ fontSize: 110, transform: `rotate(${iconSpin}deg)` }}>💾</div>
+        <div style={{ fontSize: 110, transform: `rotate(${iconSpin}deg)` }}>{icon}</div>
         <div
           style={{
             fontFamily: dataFont,
@@ -36,13 +41,11 @@ export const TitleCard: React.FC = () => {
             lineHeight: 1.25,
           }}
         >
-          In 2024, Silicon Valley Was Warned.
+          {lineNormal}
           <br />
-          <span style={{ color: theme.red }}>In 2026, The Bill Arrived.</span>
+          <span style={{ color: theme.red }}>{lineAccent}</span>
         </div>
-        <div style={{ fontFamily: scriptFont, fontSize: 34, color: theme.blue }}>
-          the math nobody wants to run
-        </div>
+        <div style={{ fontFamily: scriptFont, fontSize: 34, color: theme.blue }}>{subtitle}</div>
       </div>
     </div>
   );

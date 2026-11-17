@@ -1,9 +1,9 @@
 from pathlib import Path
 from PIL import Image
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent.parent
 SRC = ROOT / "assets" / "doc_images"
-OUT = ROOT / "public" / "images"
+OUT = ROOT / "public" / "images" / "ai-bubble"
 OUT.mkdir(parents=True, exist_ok=True)
 
 # (filename, crop_box or None for full image, output_name)

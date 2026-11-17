@@ -1,6 +1,6 @@
 import React from "react";
 import { Audio, Series, staticFile } from "remotion";
-import { FPS, secToFrames, segments, splitFrames, SubScene } from "./scenes";
+import { secToFrames, SegmentScene, splitFrames, SubScene } from "./engine";
 import { DoodleDataCard } from "./components/DoodleDataCard";
 import { QuoteCard } from "./components/QuoteCard";
 import { KineticText } from "./components/KineticText";
@@ -32,25 +32,28 @@ const SubSceneRenderer: React.FC<{ sub: SubScene }> = ({ sub }) => {
           morphCaption={sub.morphCaption}
         />
       );
+    case "title":
+      return (
+        <TitleCard
+          lineNormal={sub.lineNormal}
+          lineAccent={sub.lineAccent}
+          subtitle={sub.subtitle}
+          icon={sub.icon}
+        />
+      );
     default:
       return null;
   }
 };
 
-export const AIBubbleVideo: React.FC = () => {
+// Generic "Casual Finance" format engine — reused by every video in this repo.
+// Pass that video's own `segments` array (see src/videos/<slug>/scenes.ts).
+export const FormatVideo: React.FC<{ segments: SegmentScene[] }> = ({ segments }) => {
   return (
     <Series>
       {segments.map((seg) => {
         const totalFrames = secToFrames(seg.durationSec);
         const subFrames = splitFrames(totalFrames, seg.subRatios);
-
-        if (seg.id === "title") {
-          return (
-            <Series.Sequence key={seg.id} durationInFrames={totalFrames} layout="none">
-              <TitleCard />
-            </Series.Sequence>
-          );
-        }
 
         return (
           <Series.Sequence key={seg.id} durationInFrames={totalFrames} layout="none">
@@ -70,8 +73,3 @@ export const AIBubbleVideo: React.FC = () => {
     </Series>
   );
 };
-
-export const TOTAL_DURATION_FRAMES = segments.reduce(
-  (acc, seg) => acc + secToFrames(seg.durationSec),
-  0
-);

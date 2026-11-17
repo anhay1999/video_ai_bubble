@@ -1,36 +1,6 @@
-export const FPS = 30;
-
-export const secToFrames = (s: number) => Math.round(s * FPS);
-
-// Split a total frame count into N chunks by ratio, exact sum preserved.
-export const splitFrames = (total: number, ratios: number[]): number[] => {
-  const sum = ratios.reduce((a, b) => a + b, 0);
-  const raw = ratios.map((r) => (r / sum) * total);
-  const floored = raw.map((v) => Math.floor(v));
-  let remainder = total - floored.reduce((a, b) => a + b, 0);
-  const result = [...floored];
-  let i = 0;
-  while (remainder > 0) {
-    result[i % result.length] += 1;
-    remainder -= 1;
-    i += 1;
-  }
-  return result;
-};
-
-export type SubScene =
-  | { type: "data"; value: string; label: string; source: string; accent?: string; morphTo?: { value: string; label: string } }
-  | { type: "quote"; image: string; who: string; source: string }
-  | { type: "kinetic"; lines: string[]; variant?: "normal" | "cta" | "end" }
-  | { type: "analogy"; icons: string[]; caption: string; morphIcons?: string[]; morphCaption?: string };
-
-export type SegmentScene = {
-  id: string;
-  audio: string | null; // filename in public/audio, null = silent (title card)
-  durationSec: number;
-  subRatios: number[];
-  subScenes: SubScene[];
-};
+// Content for the "ai-bubble" video — Casual Finance format.
+// Generic engine (types, timing helpers) lives in ../../engine.ts and is shared by every video.
+import type { SegmentScene } from "../../engine";
 
 export const segments: SegmentScene[] = [
   {
@@ -38,11 +8,18 @@ export const segments: SegmentScene[] = [
     audio: null,
     durationSec: 3,
     subRatios: [1],
-    subScenes: [{ type: "kinetic", lines: [] }], // overridden by TitleCard in Video.tsx
+    subScenes: [
+      {
+        type: "title",
+        lineNormal: "In 2024, Silicon Valley Was Warned.",
+        lineAccent: "In 2026, The Bill Arrived.",
+        subtitle: "the math nobody wants to run",
+      },
+    ],
   },
   {
     id: "seg_01",
-    audio: "seg_01.mp3",
+    audio: "ai-bubble/seg_01.mp3",
     durationSec: 19.5,
     subRatios: [1, 1],
     subScenes: [
@@ -64,7 +41,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_02",
-    audio: "seg_02.mp3",
+    audio: "ai-bubble/seg_02.mp3",
     durationSec: 12.12,
     subRatios: [1],
     subScenes: [
@@ -76,7 +53,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_03",
-    audio: "seg_03.mp3",
+    audio: "ai-bubble/seg_03.mp3",
     durationSec: 30.29,
     subRatios: [1, 1],
     subScenes: [
@@ -98,7 +75,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_04",
-    audio: "seg_04.mp3",
+    audio: "ai-bubble/seg_04.mp3",
     durationSec: 9.66,
     subRatios: [1],
     subScenes: [
@@ -107,19 +84,19 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_05",
-    audio: "seg_05.mp3",
+    audio: "ai-bubble/seg_05.mp3",
     durationSec: 19.97,
     subRatios: [1, 1],
     subScenes: [
       {
         type: "quote",
-        image: "quote_gartner.png",
+        image: "ai-bubble/quote_gartner.png",
         who: "Gartner",
         source: "gartner.com, press release, 2024-07-29",
       },
       {
         type: "quote",
-        image: "quote_bcg.png",
+        image: "ai-bubble/quote_bcg.png",
         who: "Boston Consulting Group",
         source: "BCG AI Radar, 2024",
       },
@@ -127,7 +104,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_06",
-    audio: "seg_06.mp3",
+    audio: "ai-bubble/seg_06.mp3",
     durationSec: 34.9,
     subRatios: [0.19, 0.81],
     subScenes: [
@@ -143,13 +120,13 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_07",
-    audio: "seg_07.mp3",
+    audio: "ai-bubble/seg_07.mp3",
     durationSec: 29.78,
     subRatios: [0.65, 0.35],
     subScenes: [
       {
         type: "quote",
-        image: "quote_alphabet.png",
+        image: "ai-bubble/quote_alphabet.png",
         who: "Alphabet 10-K analysis",
         source: "levelheadedinvesting.com",
       },
@@ -164,13 +141,13 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_08",
-    audio: "seg_08.mp3",
+    audio: "ai-bubble/seg_08.mp3",
     durationSec: 18.56,
     subRatios: [0.6, 0.4],
     subScenes: [
       {
         type: "quote",
-        image: "quote_ledger.png",
+        image: "ai-bubble/quote_ledger.png",
         who: "Meta FY2025 ledger",
         source: "wiresift.com/ai-server-depreciation",
       },
@@ -185,7 +162,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_09",
-    audio: "seg_09.mp3",
+    audio: "ai-bubble/seg_09.mp3",
     durationSec: 29.73,
     subRatios: [1],
     subScenes: [
@@ -200,13 +177,13 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_10",
-    audio: "seg_10.mp3",
+    audio: "ai-bubble/seg_10.mp3",
     durationSec: 20.84,
     subRatios: [0.6, 0.4],
     subScenes: [
       {
         type: "quote",
-        image: "quote_burry.png",
+        image: "ai-bubble/quote_burry.png",
         who: "Michael Burry, Nov 2025",
         source: "levelheadedinvesting.com",
       },
@@ -221,7 +198,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_11",
-    audio: "seg_11.mp3",
+    audio: "ai-bubble/seg_11.mp3",
     durationSec: 15.45,
     subRatios: [1],
     subScenes: [
@@ -230,13 +207,13 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_12",
-    audio: "seg_12.mp3",
+    audio: "ai-bubble/seg_12.mp3",
     durationSec: 18.73,
     subRatios: [0.55, 0.45],
     subScenes: [
       {
         type: "quote",
-        image: "quote_goldman.png",
+        image: "ai-bubble/quote_goldman.png",
         who: "Goldman Sachs",
         source: "ppc.land",
       },
@@ -251,13 +228,13 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_13",
-    audio: "seg_13.mp3",
+    audio: "ai-bubble/seg_13.mp3",
     durationSec: 15.83,
     subRatios: [0.55, 0.45],
     subScenes: [
       {
         type: "quote",
-        image: "quote_metabond.png",
+        image: "ai-bubble/quote_metabond.png",
         who: "Meta bond filing",
         source: "ppc.land",
       },
@@ -272,7 +249,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_14",
-    audio: "seg_14.mp3",
+    audio: "ai-bubble/seg_14.mp3",
     durationSec: 29.86,
     subRatios: [1],
     subScenes: [
@@ -288,7 +265,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_15",
-    audio: "seg_15.mp3",
+    audio: "ai-bubble/seg_15.mp3",
     durationSec: 17.77,
     subRatios: [1],
     subScenes: [
@@ -301,7 +278,7 @@ export const segments: SegmentScene[] = [
   },
   {
     id: "seg_16",
-    audio: "seg_16.mp3",
+    audio: "ai-bubble/seg_16.mp3",
     durationSec: 32.04,
     subRatios: [1],
     subScenes: [
